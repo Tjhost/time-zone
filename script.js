@@ -3,12 +3,11 @@ function convertTime() {
     const theirTimeZone = document.getElementById('theirTimeZone').value;
     const myTime = document.getElementById('myTime').value;
 
-    fetch(`/convert?myTimeZone=${encodeURIComponent(myTimeZone)}&theirTimeZone=${encodeURIComponent(theirTimeZone)}&myTime=${myTime}`)
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('result').innerText = `Converted Time: ${data.convertedTime}, Time Difference: ${data.timeDifference}`;
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+    const myDateTime = new Date(`2024-01-01T${myTime}`);
+    const myOffset = myDateTime.getTimezoneOffset() * 60000;
+    const theirOffset = (theirTimeZone === 'UTC') ? 0 : -(new Date().getTimezoneOffset() * 60000);
+    const convertedTime = new Date(myDateTime.getTime() + myOffset - theirOffset).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const timeDifference = Math.abs((myOffset - theirOffset) / 3600000);
+
+    document.getElementById('result').innerText = `Converted Time: ${convertedTime}, Time Difference: ${timeDifference} hours`;
 }
