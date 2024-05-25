@@ -1,27 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Time Zone Converter</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="container">
-        <h1>Time Zone Converter</h1>
-        <div>
-            <label for="myTimeZone">My Time Zone:</label>
-            <input type="text" id="myTimeZone" placeholder="Enter your time zone">
-            <label for="myTime">My Time:</label>
-            <input type="time" id="myTime">
-        </div>
-        <div>
-            <label for="theirTimeZone">Their Time Zone:</label>
-            <input type="text" id="theirTimeZone" placeholder="Enter their time zone">
-        </div>
-        <button onclick="convertTime()">Convert</button>
-        <div id="result"></div>
-    </div>
-    <script src="script.js"></script>
-</body>
-</html>
+function convertTime() {
+    const myTimeZone = document.getElementById('myTimeZone').value;
+    const theirTimeZone = document.getElementById('theirTimeZone').value;
+    const myTime = document.getElementById('myTime').value;
+
+    const myDateTime = new Date(`2024-01-01T${myTime}`);
+    const myOffset = myDateTime.getTimezoneOffset() * 60000;
+    const theirOffset = (theirTimeZone === 'UTC') ? 0 : -(new Date().getTimezoneOffset() * 60000);
+    const convertedTime = new Date(myDateTime.getTime() + myOffset - theirOffset).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const timeDifference = Math.abs((myOffset - theirOffset) / 3600000);
+
+    document.getElementById('result').innerText = `Converted Time: ${convertedTime}`;
+}
