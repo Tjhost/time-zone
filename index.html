@@ -1,13 +1,14 @@
-function convertTime() {
-    const myTimeZone = document.getElementById('myTimeZone').value;
-    const theirTimeZone = document.getElementById('theirTimeZone').value;
-    const myTime = document.getElementById('myTime').value;
+<div class="container">
+    <label for="myTime">Enter Your Time (HH:MM):</label>
+    <input type="time" id="myTime" />
 
-    const myDateTime = new Date(`2024-01-01T${myTime}`);
-    const myOffset = myDateTime.getTimezoneOffset() * 60000;
-    const theirOffset = (theirTimeZone === 'UTC') ? 0 : -(new Date().getTimezoneOffset() * 60000);
-    const convertedTime = new Date(myDateTime.getTime() + myOffset - theirOffset).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    const timeDifference = Math.abs((myOffset - theirOffset) / 3600000);
+    <label for="myTimeZone">Select Your Time Zone:</label>
+    <input type="text" id="myTimeZone" placeholder="e.g., America/New_York" />
 
-    document.getElementById('result').innerText = `Converted Time: ${convertedTime}`;
-}
+    <label for="theirTimeZone">Select Their Time Zone:</label>
+    <input type="text" id="theirTimeZone" placeholder="e.g., Europe/London" />
+
+    <button onclick="convertTime()">Convert Time</button>
+
+    <div id="result"></div>
+</div>
